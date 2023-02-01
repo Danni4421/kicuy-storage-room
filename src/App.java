@@ -27,6 +27,7 @@ public class App {
                     View.getAllData();
                     break;
                 case 2:
+                    View.getDetailData();
                     break;
                 case 3:
                     break;

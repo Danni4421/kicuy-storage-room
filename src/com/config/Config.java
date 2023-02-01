@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class Config {
 
   // access modifier private
-  private static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+  // private static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
   private static String DB_URL = "jdbc:mysql://localhost:3306/dbkicuyshop";
   private static String USERNAME = "root";
   private static String PASSWORD = "";
@@ -20,8 +20,10 @@ public class Config {
   private static void dbConnection() {
     try {
 
-      // Connect Driver
-      Class.forName(JDBC_DRIVER);
+      // registrasi Driver
+      // Class.forName(JDBC_DRIVER);
+      // DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+      // Apabila tidak pakai registrasi sudah bisa tidak usah lagi
 
       // Connect Database
       conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -63,9 +65,47 @@ public class Config {
 
       }
 
-      Thread.sleep(100);
+      conn.close();
+      state.close();
 
     } catch (Exception e) {
+      // TODO: handle exception
+      e.printStackTrace();
+    }
+
+    return dataTemp;
+  }
+
+  public static String getDetailData(int pilihan) {
+    dbConnection();
+
+    String dataTemp = "Tidak dapat menampilkan detail data";
+
+    try {
+
+      // statement
+      state = conn.createStatement();
+
+      // query
+      String query = "SELECT * FROM tbl_barang WHERE idBarang = " + pilihan;
+
+      rslt = state.executeQuery(query);
+
+      dataTemp = "";
+
+      while (rslt.next()) {
+        dataTemp += "\nID \t\t: " + rslt.getInt(1) +
+            "\nNama \t\t: " + rslt.getString(2) +
+            "\nDeskripsi \t: " + rslt.getString(3) +
+            "\nHarga \t\t: Rp." + rslt.getInt(4) + "\n";
+      }
+
+      conn.close();
+      state.close();
+
+    } catch (
+
+    Exception e) {
       // TODO: handle exception
       e.printStackTrace();
     }
