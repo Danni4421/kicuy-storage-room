@@ -30,10 +30,13 @@ public class App {
                     View.getDetailData();
                     break;
                 case 3:
+                    View.searchData();
                     break;
                 case 4:
+                    View.insertData();
                     break;
                 case 5:
+                    View.updateData();
                     break;
             }
         }
