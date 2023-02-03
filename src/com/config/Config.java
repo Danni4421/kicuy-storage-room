@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import com.mysql.cj.xdevapi.Result;
+
 import java.sql.ResultSet;
 
 public class Config {
@@ -49,7 +51,7 @@ public class Config {
       state = conn.createStatement();
 
       // Query get all data SELECT * FROM <tabel>
-      String query = "SELECT idBarang, namaBarang FROM tbl_barang";
+      String query = "SELECT idBarang, namaBarang FROM tbl_barang WHERE statusBarang = 1";
 
       // mengisi resultData dengan hasil query
       rslt = state.executeQuery(query);
@@ -145,7 +147,9 @@ public class Config {
             "\nNama \t\t: " + rslt.getString("namaBarang") +
             "\nDeskripsi\t: " + rslt.getString("deskripsiBarang") +
             "\nHarga\t\t: " + rslt.getInt("hargaBarang");
-
+        if (rslt.getString("statusBarang").equals("0")) {
+          dataTemp += "\n(Barang sedang tidak ada)";
+            }
         dataTemp += "\n=============================\n";
       }
 
@@ -232,5 +236,31 @@ public class Config {
 
     return result;
 
+  }
+
+  public static boolean moveDataToRecycleBin(int id) {
+    boolean resultRemove = false;
+
+    dbConnection();
+
+    try {
+      state = conn.createStatement();
+
+      String query = "UPDATE tbl_barang SET `statusBarang` = '0' WHERE idBarang = " + id;
+
+      if (!state.execute(query)) {
+        resultRemove = true;
+      } else {
+        resultRemove = false;
+      }
+
+      state.close();
+      conn.close();
+    } catch (Exception e) {
+      // TODO: handle exception
+      e.printStackTrace();
+    }
+
+    return resultRemove;
   }
 }

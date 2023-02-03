@@ -123,4 +123,15 @@ public class View {
     }
 
   }
+
+  public static void setToBin() {
+    getAllData();
+    System.out.print("Masukkan Pilihan : ");
+    int getPilihan = sc.nextInt();
+    if (Config.moveDataToRecycleBin(getPilihan)) {
+      System.out.println("Data berhasil dihapus sementara");
+    } else {
+      System.out.println("Data gagal dihapus!");
+    }
+  }
 }

@@ -13,6 +13,7 @@ public class App {
                     + "3. Cari Data Barang\n"
                     + "4. Tambah Data Barang\n"
                     + "5. Edit Data Barang\n"
+                    + "6. Delete Data Sementara\n"
                     + "0. Keluar\n"
                     + "Masukkan Perintah : ");
 
@@ -38,6 +39,8 @@ public class App {
                 case 5:
                     View.updateData();
                     break;
+                case 6:
+                    View.setToBin();
             }
         }
 
